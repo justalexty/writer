@@ -366,6 +366,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  $('custom-bg-file').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const dataUrl = ev.target.result;
+      patchPrefs({ customBgUrl: dataUrl, bg: 'custom' });
+      applyBg('custom', dataUrl);
+      $('custom-bg-url').value = '';
+      document.querySelectorAll('.bg-swatch').forEach(s => s.classList.remove('selected'));
+    };
+    reader.readAsDataURL(file);
+  });
+
   $('sign-out-btn').addEventListener('click', () => {
     if (confirm('Sign out? Your documents stay saved on GitHub.')) {
       clearToken();
