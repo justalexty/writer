@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>shoji</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Auth Screen -->
+<div id="auth-screen" class="screen">
+  <div class="auth-card">
+    <div class="auth-kanji">障子</div>
+    <h1 class="auth-title">shoji</h1>
+    <p class="auth-sub">a quiet place to write</p>
+    <div class="auth-form">
+      <input
+        type="password"
+        id="pat-input"
+        class="pat-input"
+        placeholder="GitHub Personal Access Token"
+        autocomplete="off"
+      >
+      <p class="pat-hint">
+        Requires <code>gist</code> scope —
+        <a href="https://github.com/settings/tokens/new?scopes=gist&description=shoji" target="_blank">create token ↗</a>
+      </p>
+      <button id="auth-btn" class="auth-btn">始める</button>
+    </div>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app" class="screen hidden">
+  <div id="desktop">
+
+    <!-- Main Window -->
+    <div id="window" class="window">
+      <div id="titlebar" class="titlebar">
+        <div class="win-dots">
+          <button class="dot dot-r" id="btn-close" title="New document"></button>
+          <button class="dot dot-y" id="btn-min" title="Close panel"></button>
+          <button class="dot dot-g" id="btn-max" title="Focus mode"></button>
+        </div>
+        <div class="doc-title-area">
+          <span id="doc-title" contenteditable="true" spellcheck="false" role="textbox">Untitled</span>
+          <span id="save-dot" class="save-dot sr-hidden" title="Unsaved changes">●</span>
+        </div>
+        <div class="win-actions">
+          <button id="panel-btn" class="icon-btn" title="Documents &amp; Settings">≡</button>
+        </div>
+      </div>
+
+      <div id="editor-area">
+        <div
+          id="editor"
+          contenteditable="true"
+          spellcheck="true"
+          data-placeholder="Begin writing…"
+        ></div>
+      </div>
+
+      <div id="statusbar" class="statusbar">
+        <span id="word-count">0 words</span>
+        <span id="char-count" class="muted">0 chars</span>
+      </div>
+    </div>
+
+    <!-- Side Panel -->
+    <div id="panel" class="panel">
+      <div class="panel-tabs">
+        <button class="ptab active" data-tab="docs">文書</button>
+        <button class="ptab" data-tab="settings">設定</button>
+      </div>
+
+      <div id="tab-docs" class="tab-content">
+        <div class="panel-section">
+          <button id="new-doc-btn" class="panel-action-btn">＋ New Document</button>
+        </div>
+        <div id="doc-list" class="doc-list">
+          <div class="doc-loading">Loading…</div>
+        </div>
+      </div>
+
+      <div id="tab-settings" class="tab-content hidden">
+        <div class="panel-section">
+          <div class="setting-label">Background</div>
+          <div id="bg-grid" class="bg-grid"></div>
+          <input type="url" id="custom-bg-url" class="setting-input" placeholder="Custom image URL…">
+        </div>
+        <div class="panel-section">
+          <div class="setting-label">Font Size</div>
+          <div class="slider-row">
+            <input type="range" id="font-size-slider" min="13" max="22" value="16" class="slider">
+            <span id="font-size-val">16px</span>
+          </div>
+        </div>
+        <div class="panel-section">
+          <div class="setting-label">Window Style</div>
+          <label class="toggle-label">
+            <input type="checkbox" id="dark-glass-toggle">
+            <span>Dark glass</span>
+          </label>
+        </div>
+        <div class="panel-section panel-footer">
+          <button id="sign-out-btn" class="sign-out-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
