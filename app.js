@@ -5,12 +5,12 @@ const KEY_PREFS   = 'shoji_prefs';
 const KEY_CUR_ID  = 'shoji_current_id';
 
 const BACKGROUNDS = [
-  { id: 'mist',      label: '霧', css: 'linear-gradient(140deg, #8e9eab 0%, #b4c5d0 50%, #cfd9e0 100%)' },
-  { id: 'parchment', label: '紙', css: 'linear-gradient(140deg, #c9b99a 0%, #ddd0bb 50%, #e8ddd0 100%)' },
-  { id: 'ink',       label: '墨', css: 'linear-gradient(140deg, #0d1117 0%, #161b22 50%, #1c2128 100%)' },
-  { id: 'sakura',    label: '桜', css: 'linear-gradient(140deg, #e0a8b4 0%, #f2cdd3 50%, #fce8eb 100%)' },
-  { id: 'bamboo',    label: '竹', css: 'linear-gradient(140deg, #8fa88a 0%, #b8cdb4 50%, #d4e4d0 100%)' },
-  { id: 'stone',     label: '石', css: 'linear-gradient(140deg, #7a7775 0%, #a5a29f 50%, #c8c4c0 100%)' },
+  { id: 'mist',      label: 'mist', css: 'linear-gradient(140deg, #8e9eab 0%, #b4c5d0 50%, #cfd9e0 100%)' },
+  { id: 'parchment', label: 'parchment', css: 'linear-gradient(140deg, #c9b99a 0%, #ddd0bb 50%, #e8ddd0 100%)' },
+  { id: 'ink',       label: 'ink', css: 'linear-gradient(140deg, #0d1117 0%, #161b22 50%, #1c2128 100%)' },
+  { id: 'sakura',    label: 'sakura', css: 'linear-gradient(140deg, #e0a8b4 0%, #f2cdd3 50%, #fce8eb 100%)' },
+  { id: 'bamboo',    label: 'bamboo', css: 'linear-gradient(140deg, #8fa88a 0%, #b8cdb4 50%, #d4e4d0 100%)' },
+  { id: 'stone',     label: 'stone', css: 'linear-gradient(140deg, #7a7775 0%, #a5a29f 50%, #c8c4c0 100%)' },
 ];
 
 /* ── State ─────────────────────────────────────── */
@@ -109,7 +109,7 @@ async function handleAuth() {
     setToken(token);
     showApp();
   } catch {
-    btn.textContent = '始める';
+    btn.textContent = 'begin';
     btn.disabled = false;
     const inp = $('pat-input');
     inp.style.borderColor = '#ff5f57';
