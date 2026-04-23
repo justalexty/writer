@@ -246,6 +246,9 @@ function applyPrefs() {
   // Dark glass
   $('window').classList.toggle('dark-glass', !!p.darkGlass);
   $('dark-glass-toggle').checked = !!p.darkGlass;
+  // Indent mode
+  $('editor-area').classList.toggle('indent-mode', !!p.indentMode);
+  $('indent-toggle').checked = !!p.indentMode;
   // Build bg swatches
   buildBgGrid(p.bg || 'mist');
   // Custom bg input
@@ -339,6 +342,19 @@ document.addEventListener('DOMContentLoaded', () => {
   $('dark-glass-toggle').addEventListener('change', e => {
     $('window').classList.toggle('dark-glass', e.target.checked);
     patchPrefs({ darkGlass: e.target.checked });
+  });
+
+  $('indent-toggle').addEventListener('change', e => {
+    $('editor-area').classList.toggle('indent-mode', e.target.checked);
+    patchPrefs({ indentMode: e.target.checked });
+  });
+
+  /* Tab key → em-space indent in editor */
+  $('editor').addEventListener('keydown', e => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      document.execCommand('insertText', false, '\u2003'); // em space
+    }
   });
 
   $('custom-bg-url').addEventListener('change', e => {

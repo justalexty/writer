@@ -270,9 +270,17 @@ html, body {
   caret-color: var(--accent);
 }
 
-/* Novel paragraph spacing */
+/* Novel paragraph spacing + indent */
 #editor div, #editor p {
   margin-bottom: 0.6em;
+}
+
+/* First-line indent class (toggled via settings) */
+.indent-mode #editor div + div,
+.indent-mode #editor p + p,
+.indent-mode #editor div:first-child,
+.indent-mode #editor p:first-child {
+  text-indent: 2em;
 }
 
 /* Placeholder */
@@ -516,6 +524,12 @@ html, body {
   cursor: pointer;
   color: var(--text);
   font-weight: 300;
+}
+
+.setting-hint {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
 }
 
 .panel-footer {
