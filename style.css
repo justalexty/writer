@@ -244,6 +244,41 @@ html, body {
 }
 .icon-btn:hover { color: var(--text); background: rgba(128,128,128,0.1); }
 
+/* ── Script Bar ───────────────────────────────── */
+.script-bar {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 14px;
+  background: var(--titlebar-bg);
+  border-bottom: 1px solid var(--sep);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.fmt-btn {
+  padding: 3px 10px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.fmt-btn:hover {
+  color: var(--text);
+  background: rgba(128,128,128,0.1);
+}
+.fmt-btn.active {
+  color: var(--text);
+  border-color: var(--sep);
+  background: rgba(128,128,128,0.12);
+}
+
 /* ── Editor ───────────────────────────────────── */
 #editor-area {
   flex: 1;
@@ -273,6 +308,74 @@ html, body {
 /* Novel paragraph spacing + indent */
 #editor div, #editor p {
   margin-bottom: 0.6em;
+}
+
+/* ── Script Formatting ────────────────────────── */
+#editor [data-fmt] {
+  display: block;
+  margin-bottom: 0;
+}
+
+/* Slug / Scene heading */
+#editor [data-fmt="slug"] {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 2em;
+  margin-bottom: 0.25em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Action */
+#editor [data-fmt="action"] {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Character */
+#editor [data-fmt="character"] {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 1em;
+  margin-bottom: 0;
+  margin-left: 30%;
+  margin-right: 0;
+}
+
+/* Dialogue */
+#editor [data-fmt="dialogue"] {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  margin-left: 20%;
+  margin-right: 15%;
+}
+
+/* Parenthetical */
+#editor [data-fmt="parenthetical"] {
+  color: var(--text-muted);
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 25%;
+  margin-right: 20%;
+  font-style: italic;
+}
+#editor [data-fmt="parenthetical"]::before { content: '('; }
+#editor [data-fmt="parenthetical"]::after  { content: ')'; }
+
+/* Transition */
+#editor [data-fmt="transition"] {
+  text-transform: uppercase;
+  font-size: 0.9em;
+  letter-spacing: 0.08em;
+  text-align: right;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: var(--text-muted);
 }
 
 /* First-line indent class (toggled via settings) */

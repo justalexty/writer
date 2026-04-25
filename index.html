@@ -61,6 +61,16 @@
         </div>
       </div>
 
+      <!-- Script format bar (script mode only) -->
+      <div id="script-bar" class="script-bar hidden">
+        <button class="fmt-btn" data-fmt="slug" title="Scene heading (S)">slug</button>
+        <button class="fmt-btn" data-fmt="action" title="Action (A)">action</button>
+        <button class="fmt-btn" data-fmt="character" title="Character (C)">character</button>
+        <button class="fmt-btn" data-fmt="dialogue" title="Dialogue (D)">dialogue</button>
+        <button class="fmt-btn" data-fmt="parenthetical" title="Parenthetical (P)">(paren)</button>
+        <button class="fmt-btn" data-fmt="transition" title="Transition (T)">transition</button>
+      </div>
+
       <div id="editor-area">
         <div
           id="editor"
@@ -123,6 +133,14 @@
             <span>First-line indent</span>
           </label>
           <p class="setting-hint">Tab key inserts indent while typing</p>
+        </div>
+        <div class="panel-section">
+          <div class="setting-label">Mode</div>
+          <label class="toggle-label">
+            <input type="checkbox" id="script-toggle">
+            <span>Script mode</span>
+          </label>
+          <p class="setting-hint">Adds format bar for slug, action, character, dialogue, etc.</p>
         </div>
         <div class="panel-section panel-footer">
           <button id="sign-out-btn" class="sign-out-btn">Sign out</button>

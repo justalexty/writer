@@ -13,12 +13,26 @@ const BACKGROUNDS = [
   { id: 'stone',     label: 'stone', css: 'linear-gradient(140deg, #7a7775 0%, #a5a29f 50%, #c8c4c0 100%)' },
 ];
 
+/* ── Script format config ──────────────────────── */
+const SCRIPT_FMTS = ['slug','action','character','dialogue','parenthetical','transition'];
+const SCRIPT_KEYS = { s:'slug', a:'action', c:'character', d:'dialogue', p:'parenthetical', t:'transition' };
+// What format comes next when you press Enter
+const SCRIPT_NEXT = {
+  slug: 'action',
+  action: 'action',
+  character: 'dialogue',
+  dialogue: 'character',
+  parenthetical: 'dialogue',
+  transition: 'slug',
+};
+
 /* ── State ─────────────────────────────────────── */
 let currentDocId = localStorage.getItem(KEY_CUR_ID) || null;
 let isDirty      = false;
 let saveTimer    = null;
 let panelOpen    = false;
 let loadedDocs   = [];
+let scriptMode   = false;
 
 /* ── Helpers ───────────────────────────────────── */
 const $        = id => document.getElementById(id);
@@ -249,6 +263,9 @@ function applyPrefs() {
   // Indent mode
   $('editor-area').classList.toggle('indent-mode', !!p.indentMode);
   $('indent-toggle').checked = !!p.indentMode;
+  // Script mode
+  $('script-toggle').checked = !!p.scriptMode;
+  setScriptMode(!!p.scriptMode);
   // Build bg swatches
   buildBgGrid(p.bg || 'mist');
   // Custom bg input
@@ -281,6 +298,44 @@ function buildBgGrid(selectedId) {
       grid.querySelectorAll('.bg-swatch').forEach(s => s.classList.remove('selected'));
       el.classList.add('selected');
     });
+  });
+}
+
+/* ── Script Mode ───────────────────────────────── */
+function setScriptMode(on) {
+  scriptMode = on;
+  $('script-bar').classList.toggle('hidden', !on);
+  $('editor').classList.toggle('script-mode', on);
+  if (on) updateFormatBar();
+}
+
+function getCurrentBlock() {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return null;
+  let node = sel.getRangeAt(0).startContainer;
+  while (node && node !== $('editor')) {
+    if (node.nodeType === 1 && node.parentNode === $('editor')) return node;
+    node = node.parentNode;
+  }
+  return null;
+}
+
+function applyFormat(fmt) {
+  const block = getCurrentBlock();
+  if (!block) return;
+  // Remove all fmt classes, set data-fmt
+  SCRIPT_FMTS.forEach(f => block.classList.remove(`fmt-${f}`));
+  block.dataset.fmt = fmt;
+  updateFormatBar();
+  $('editor').focus();
+  scheduleSave();
+}
+
+function updateFormatBar() {
+  const block = getCurrentBlock();
+  const cur = block?.dataset?.fmt || null;
+  document.querySelectorAll('.fmt-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.fmt === cur);
   });
 }
 
@@ -349,11 +404,58 @@ document.addEventListener('DOMContentLoaded', () => {
     patchPrefs({ indentMode: e.target.checked });
   });
 
-  /* Tab key → em-space indent in editor */
+  $('script-toggle').addEventListener('change', e => {
+    setScriptMode(e.target.checked);
+    patchPrefs({ scriptMode: e.target.checked });
+  });
+
+  /* Format bar buttons */
+  document.querySelectorAll('.fmt-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyFormat(btn.dataset.fmt));
+  });
+
+  /* Track cursor movement to update format bar */
+  $('editor').addEventListener('keyup', () => { if (scriptMode) updateFormatBar(); });
+  $('editor').addEventListener('mouseup', () => { if (scriptMode) updateFormatBar(); });
+
+  /* Tab key → em-space indent (prose) or next format (script) */
   $('editor').addEventListener('keydown', e => {
     if (e.key === 'Tab') {
       e.preventDefault();
-      document.execCommand('insertText', false, '\u2003'); // em space
+      if (scriptMode) {
+        // Cycle to next format
+        const block = getCurrentBlock();
+        const cur = block?.dataset?.fmt || 'action';
+        const idx = SCRIPT_FMTS.indexOf(cur);
+        applyFormat(SCRIPT_FMTS[(idx + 1) % SCRIPT_FMTS.length]);
+      } else {
+        document.execCommand('insertText', false, '\u2003');
+      }
+    }
+
+    // Script mode: Enter key smart-advances format
+    if (e.key === 'Enter' && scriptMode && !e.shiftKey) {
+      const block = getCurrentBlock();
+      const cur = block?.dataset?.fmt;
+      if (cur) {
+        // Let browser create the new div, then set its format
+        setTimeout(() => {
+          const newBlock = getCurrentBlock();
+          if (newBlock && newBlock !== block) {
+            newBlock.dataset.fmt = SCRIPT_NEXT[cur] || 'action';
+            updateFormatBar();
+          }
+        }, 0);
+      }
+    }
+
+    // Script mode: letter shortcuts with Alt/Option key
+    if (scriptMode && e.altKey) {
+      const fmt = SCRIPT_KEYS[e.key.toLowerCase()];
+      if (fmt) {
+        e.preventDefault();
+        applyFormat(fmt);
+      }
     }
   });
 
