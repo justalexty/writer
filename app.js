@@ -422,7 +422,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.prose-btn').forEach(btn => {
     btn.addEventListener('mousedown', e => {
       e.preventDefault(); // don't lose editor focus
-      document.execCommand(btn.dataset.cmd, false, null);
+      let cmd = btn.dataset.cmd;
+      // Toggle center: if already centered, revert to left
+      if (cmd === 'justifyCenter' && document.queryCommandState('justifyCenter')) {
+        cmd = 'justifyLeft';
+      }
+      document.execCommand(cmd, false, null);
       updateProseBar();
     });
   });
@@ -524,10 +529,11 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       togglePanel();
     }
-    // ⌘E = center (browsers don't handle this natively)
+    // ⌘E = toggle center
     if ((e.metaKey || e.ctrlKey) && e.key === 'e') {
       e.preventDefault();
-      document.execCommand('justifyCenter', false, null);
+      const cmd = document.queryCommandState('justifyCenter') ? 'justifyLeft' : 'justifyCenter';
+      document.execCommand(cmd, false, null);
       updateProseBar();
     }
     if (e.key === 'Escape' && panelOpen) {
