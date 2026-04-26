@@ -279,17 +279,6 @@ html, body {
   background: rgba(128,128,128,0.12);
 }
 
-.prose-sep {
-  flex: 1;
-}
-
-.prose-wc {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
 
 /* ── Script Bar ───────────────────────────────── */
 .script-bar {

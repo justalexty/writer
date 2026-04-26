@@ -237,10 +237,8 @@ function updateCounts() {
   const text  = $('editor').innerText || '';
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   const chars = text.replace(/\s/g, '').length;
-  const wstr  = `${words} word${words !== 1 ? 's' : ''}`;
-  $('word-count').textContent = wstr;
+  $('word-count').textContent = `${words} word${words !== 1 ? 's' : ''}`;
   $('char-count').textContent = `${chars} chars`;
-  $('prose-word-count').textContent = wstr;
 }
 
 function updateProseBar() {
