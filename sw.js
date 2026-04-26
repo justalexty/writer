@@ -1,5 +1,5 @@
-const CACHE = 'writer-v2';
-const ASSETS = ['./', './index.html', './style.css', './app.js', './manifest.json', './icon.svg', './favicon.svg'];
+const CACHE = 'writer-v3';
+const ASSETS = ['./', './index.html', './style.css', './app.js', './manifest.json', './icon.svg', './favicon.svg', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
