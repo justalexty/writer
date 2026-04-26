@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#0a0e1c"/>
-  <polygon points="72,128 136,128 192,340 256,200 320,340 376,128 440,128 352,384 288,384 256,280 224,384 160,384" fill="#8899cc"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#0a0e1c"/>
+  <text x="16" y="23" font-family="Georgia,serif" font-size="20" fill="#8899cc" text-anchor="middle">w</text>
 </svg>
