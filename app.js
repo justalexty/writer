@@ -237,8 +237,19 @@ function updateCounts() {
   const text  = $('editor').innerText || '';
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   const chars = text.replace(/\s/g, '').length;
-  $('word-count').textContent = `${words} word${words !== 1 ? 's' : ''}`;
+  const wstr  = `${words} word${words !== 1 ? 's' : ''}`;
+  $('word-count').textContent = wstr;
   $('char-count').textContent = `${chars} chars`;
+  $('prose-word-count').textContent = wstr;
+}
+
+function updateProseBar() {
+  document.querySelectorAll('.prose-btn').forEach(btn => {
+    const cmd = btn.dataset.cmd;
+    try {
+      btn.classList.toggle('active', document.queryCommandState(cmd));
+    } catch { /* ignore */ }
+  });
 }
 
 /* ── Panel ─────────────────────────────────────── */
@@ -409,14 +420,29 @@ document.addEventListener('DOMContentLoaded', () => {
     patchPrefs({ scriptMode: e.target.checked });
   });
 
+  /* Prose bar buttons */
+  document.querySelectorAll('.prose-btn').forEach(btn => {
+    btn.addEventListener('mousedown', e => {
+      e.preventDefault(); // don't lose editor focus
+      document.execCommand(btn.dataset.cmd, false, null);
+      updateProseBar();
+    });
+  });
+
   /* Format bar buttons */
   document.querySelectorAll('.fmt-btn').forEach(btn => {
     btn.addEventListener('click', () => applyFormat(btn.dataset.fmt));
   });
 
-  /* Track cursor movement to update format bar */
-  $('editor').addEventListener('keyup', () => { if (scriptMode) updateFormatBar(); });
-  $('editor').addEventListener('mouseup', () => { if (scriptMode) updateFormatBar(); });
+  /* Track cursor movement to update bars */
+  $('editor').addEventListener('keyup', () => {
+    updateProseBar();
+    if (scriptMode) updateFormatBar();
+  });
+  $('editor').addEventListener('mouseup', () => {
+    updateProseBar();
+    if (scriptMode) updateFormatBar();
+  });
 
   /* Tab key → em-space indent (prose) or next format (script) */
   $('editor').addEventListener('keydown', e => {
@@ -499,6 +525,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
       togglePanel();
+    }
+    // ⌘E = center (browsers don't handle this natively)
+    if ((e.metaKey || e.ctrlKey) && e.key === 'e') {
+      e.preventDefault();
+      document.execCommand('justifyCenter', false, null);
+      updateProseBar();
     }
     if (e.key === 'Escape' && panelOpen) {
       togglePanel(false);
