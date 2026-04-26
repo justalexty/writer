@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#0a0e1c"/>
-  <text x="256" y="360" font-family="Georgia,serif" font-size="320" fill="#8899cc" text-anchor="middle">w</text>
+  <rect width="512" height="512" rx="96" fill="#0a0e1c"/>
+  <!-- W as explicit polygon path -->
+  <polygon points="72,128 136,128 192,340 256,200 320,340 376,128 440,128 352,384 288,384 256,280 224,384 160,384" fill="#8899cc"/>
 </svg>
