@@ -159,6 +159,7 @@ html, body {
   --window-bg: rgba(8, 14, 38, 0.88);
   --titlebar-bg: rgba(6, 10, 28, 0.82);
   --statusbar-bg: rgba(6, 10, 28, 0.65);
+  --toolbar-bg: rgba(6, 10, 28, 0.82);
   --text: #d8dff0;
   --text-muted: rgba(180,192,220,0.42);
   --sep: rgba(100,130,200,0.1);
@@ -731,6 +732,7 @@ html, body {
   .window { border-radius: 0; }
   .auth-card { width: 92vw; padding: 40px 28px; }
 }
+
 
 
 
