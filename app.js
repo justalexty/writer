@@ -238,7 +238,7 @@ function updateCounts() {
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   const chars = text.replace(/\s/g, '').length;
   $('word-count').textContent = `${words} word${words !== 1 ? 's' : ''}`;
-  $('char-count').textContent = `${chars} chars`;
+  $('char-count').textContent = `${chars} characters`;
 }
 
 function updateProseBar() {
@@ -553,3 +553,4 @@ document.addEventListener('DOMContentLoaded', () => {
     showAuth();
   }
 });
+
