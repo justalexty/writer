@@ -9,7 +9,7 @@
   --panel-w: 268px;
 
   --bg: linear-gradient(140deg, #8e9eab 0%, #b4c5d0 50%, #cfd9e0 100%);
-  --window-bg: rgba(252, 249, 245, 0.88);
+  --window-bg: rgba(252, 249, 245, 0.77);
   --window-border: rgba(255, 255, 255, 0.32);
   --window-shadow: 0 32px 96px rgba(0,0,0,0.28), 0 8px 24px rgba(0,0,0,0.12);
   --titlebar-bg: rgba(246, 243, 239, 0.72);
@@ -730,4 +730,5 @@ html, body {
   .window { border-radius: 0; }
   .auth-card { width: 92vw; padding: 40px 28px; }
 }
+
 
