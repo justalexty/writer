@@ -723,6 +723,17 @@ html, body {
   opacity: 1;
 }
 
+/* ── Selection ───────────────────────────────── */
+::selection {
+  background: rgba(180, 160, 120, 0.35);
+  color: inherit;
+}
+
+.window.dark-glass ::selection {
+  background: rgba(100, 140, 220, 0.35);
+  color: inherit;
+}
+
 /* ── Responsive ───────────────────────────────── */
 @media (max-width: 920px) {
   :root { --window-w: 95vw; }
@@ -732,6 +743,7 @@ html, body {
   .window { border-radius: 0; }
   .auth-card { width: 92vw; padding: 40px 28px; }
 }
+
 
 
 
