@@ -82,6 +82,11 @@ async function apiGet(id) {
   return r.json();
 }
 
+async function apiDelete(id) {
+  const r = await fetch(`https://api.github.com/gists/${id}`, { method: 'DELETE', headers: headers() });
+  if (!r.ok && r.status !== 404) throw new Error(`GitHub ${r.status}`);
+}
+
 async function apiSave(title, content, id = null) {
   const body = JSON.stringify({
     description: `${GIST_PREFIX}${title}`,
@@ -161,15 +166,24 @@ function renderDocList() {
     const title = d.description.replace(GIST_PREFIX, '');
     const active = d.id === currentDocId;
     return `<div class="doc-item${active ? ' active' : ''}" data-id="${d.id}">
-      <div class="doc-item-title">${escHtml(title)}</div>
-      <div class="doc-item-date">${relDate(d.updated_at)}</div>
+      <div class="doc-item-main">
+        <div class="doc-item-title">${escHtml(title)}</div>
+        <div class="doc-item-date">${relDate(d.updated_at)}</div>
+      </div>
+      <button class="doc-item-delete" data-id="${d.id}" title="Delete document">×</button>
     </div>`;
   }).join('');
-  list.querySelectorAll('.doc-item').forEach(el =>
+  list.querySelectorAll('.doc-item').forEach(el => {
     el.addEventListener('click', () => {
       if (el.dataset.id !== currentDocId) openDoc(el.dataset.id);
-    })
-  );
+    });
+  });
+  list.querySelectorAll('.doc-item-delete').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      deleteDoc(btn.dataset.id);
+    });
+  });
 }
 
 async function openDoc(id, closePanel = true) {
@@ -202,6 +216,27 @@ async function newDoc() {
   renderDocList();
   togglePanel(false);
   $('editor').focus();
+}
+
+async function deleteDoc(id) {
+  const doc = loadedDocs.find(d => d.id === id);
+  const title = doc ? doc.description.replace(GIST_PREFIX, '') : 'this document';
+  if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+  try {
+    await apiDelete(id);
+    if (currentDocId === id) {
+      currentDocId = null;
+      localStorage.removeItem(KEY_CUR_ID);
+      $('editor').innerHTML = '';
+      $('doc-title').textContent = 'Untitled';
+      setDirty(false);
+      updateCounts();
+    }
+    loadedDocs = await apiList();
+    renderDocList();
+  } catch(e) {
+    console.error('Delete failed', e);
+  }
 }
 
 async function saveNow() {
@@ -553,4 +588,5 @@ document.addEventListener('DOMContentLoaded', () => {
     showAuth();
   }
 });
+
 
