@@ -542,11 +542,38 @@ html, body {
   cursor: pointer;
   border: 1px solid transparent;
   transition: background 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .doc-item:hover { background: rgba(0,0,0,0.04); }
 .doc-item.active {
   background: rgba(0,0,0,0.05);
   border-color: rgba(0,0,0,0.09);
+}
+
+.doc-item-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.doc-item-delete {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1;
+  padding: 2px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
+}
+.doc-item:hover .doc-item-delete { opacity: 1; }
+.doc-item-delete:hover {
+  color: #ff5f57;
+  background: rgba(255,95,87,0.1);
 }
 
 .doc-item-title {
@@ -743,6 +770,7 @@ html, body {
   .window { border-radius: 0; }
   .auth-card { width: 92vw; padding: 40px 28px; }
 }
+
 
 
 
